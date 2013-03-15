@@ -4,7 +4,7 @@ var fs      = require('fs'),
 module.exports = function(grunt) {
     var _ = grunt.utils._;
 
-    grunt.registerTask('inlineImg', 'Inlines images as base64 strings in html and css files', function () {
+    grunt.registerTask('inlineImg', 'Inlines images as base64 strings in css files', function () {
         var config = grunt.config('inlineImg'),
         dest = config.dest,
         files = grunt.file.expandFiles(config.src);
@@ -18,11 +18,6 @@ module.exports = function(grunt) {
             // inline images in css files
             if (extname === '.css') {
                 grunt.helper('inline_images_css', file, config, fileWriter);
-            }
-
-            // inline images in html files
-            if (extname === '.htm' || extname === '.html') {
-                grunt.helper('inline_images_html', file, config, fileWriter);
             }
         });
     });

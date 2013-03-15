@@ -1,7 +1,6 @@
 var fs      = require('fs'),
     path    = require('path'),
     mkdirp  = require('mkdirp'),
-    jQuery  = require('jQuery'),
     mime    = require('mime');
 
 // Helpers for image tasks
@@ -68,47 +67,6 @@ module.exports = function(grunt) {
         if (_.isFunction(cb)) {
             grunt.log.ok('Inlined: ' + processedImages + ' Images in file: ' + cssFile);
             cb(cssFile, css);
-        }
-    });
-
-    // inline images as base64 in html files
-    grunt.registerHelper('inline_images_html', function(htmlFile, config, cb) {
-        var html = fs.readFileSync(htmlFile, 'utf-8'),
-            processedImages = 0;
-
-        // grab all <img/> elements from the document
-        jQuery(html).find('img').each(function (idx, elm) {
-            var src = jQuery(elm).attr('src'),
-                imgPath = null,
-                img = null,
-                ext = null,
-                mimetype = null,
-                inlineImgPath = null;
-
-            // check if the image src is already a data attribute
-            if (src.substr(0, 5) !== 'data:') {
-                // figure out the image path and load it
-                imgPath = path.join(path.dirname(htmlFile), src);
-                img = fs.readFileSync(imgPath, 'base64');
-
-                mimetype = mime.lookup(inlineImgPath);
-
-                // check file size and ie8 compat mode
-                if (img.length > 32768 && config.ie8 === true) {
-                    // i hate to write this, but can´t wrap my head around
-                    // how to do this better: DO NOTHING
-                } else {
-                    html = html.replace(src, 'data:' + mimetype + ';base64,' + img);
-                    processedImages++;
-                }
-            }
-
-        });
-
-        // check if a callback is given
-        if (_.isFunction(cb)) {
-            grunt.log.ok('Inlined: ' + processedImages + ' Images in file: ' + htmlFile);
-            cb(htmlFile, html);
         }
     });
 
