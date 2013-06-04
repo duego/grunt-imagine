@@ -9,7 +9,7 @@ module.exports = function(grunt) {
     var jpgTools = [{
             executable: 'jpegoptim',
             isAvailable: false,
-            flags: ['-f', '--strip-all', '<inputFile>', '<outputFolder>']
+            flags: ['-f', '--strip-all', '--all-progressive', '--dest=<outputFolder>', '<inputFile>']
         }, {
             executable: 'jpegtran',
             isAvailable: false,

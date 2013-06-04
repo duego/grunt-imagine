@@ -189,24 +189,23 @@ module.exports = function(grunt) {
 
             processableTools.push(function (idx, file, fileOutput) {
                 var flags = _.map(toolsToProcessInf[toolId].flags, function (flag) {
-                    var remappedFlags = '';
+                    var remappedFlag;
 
-                    switch (flag) {
-                        case '<inputFile>':
-                            remappedFlags = (toolId !== 0 ? fileOutput : file);
-                            break;
-                        case '<outputFile>':
-                            remappedFlags = fileOutput;
-                            break;
-                        case '<outputFolder>':
-                            remappedFlags = path.dirname(fileOutput);
-                            break;
-                        default:
-                            remappedFlags = flag;
-                            break;
+                    if (flag.indexOf('<inputFile>') > -1) {
+                        remappedFlag = flag.replace('<inputFile>', (toolId !== 0 ? fileOutput : file));
                     }
-                return remappedFlags;
-            });
+                    else if (flag.indexOf('<outputFile>') > -1) {
+                        remappedFlag = flag.replace('<outputFile>', fileOutput);
+                    }
+                    else if (flag.indexOf('<outputFolder>') > -1) {
+                        remappedFlag = flag.replace('<outputFolder>', path.dirname(fileOutput));
+                    }
+                    else {
+                        remappedFlag = flag;
+                    }
+
+                    return remappedFlag;
+                });
 
             var ls = grunt.utils.spawn({
                     cmd: tool,
