@@ -10,19 +10,19 @@ var fs      = require('fs'),
 module.exports = function(grunt) {
     var _ = grunt.utils._;
 
-    // list of all executable png optimization tools 
+    // list of all executable png optimization tools
     var pngTools = [{
             executable: 'pngcrush',
             isAvailable: false,
-            flags: ['-reduce', '-brute', '-l', '9', '<inputFile>', '<outputFile>']          
+            flags: ['-rem', 'alla', '-bail', '-blacken', '-reduce', '-brute', '-l', '9', '<inputFile>', '<outputFile>']
         },{
             executable: 'pngout',
             isAvailable: false,
-            flags: ['<inputFile>', '<outputFile>', '-force', '-s0', '-ks', '-kp', '-f6', '-r', '-y']
+            flags: ['<inputFile>', '<outputFile>', '-force', '-s0', '-k0', '-f6', '-r', '-y']
         },{
             executable: 'optipng',
             isAvailable: false,
-            flags: ['<inputFile>', '-out', '<outputFile>']
+            flags: ['-o6', '<inputFile>', '-out', '<outputFile>']
         },{
             executable: 'cryopng',
             isAvailable: false,
@@ -30,13 +30,17 @@ module.exports = function(grunt) {
         },{
             executable: 'advpng',
             isAvailable: false,
-            flags: ['-4', '-z', '<inputFile>', '<outputFile>']          
+            flags: ['-4', '-z', '<inputFile>', '<outputFile>']
         },{
             executable: 'huffmix',
             isAvailable: false,
-            flags: ['<inputFile>', '<outputFile>']          
+            flags: ['<inputFile>', '<outputFile>']
+        },{
+            executable: 'zopflipng',
+            isAvailable: false,
+            flags: ['--lossy_transparent', '-m', '-y', '<inputFile>', '<outputFile>']
         }];
-        
+
     // list of file types, each optimizer can process
     var png = ['.png', '.bmp', '.pnm', '.tiff'];
 
